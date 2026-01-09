@@ -1,22 +1,29 @@
 import React from 'react';
-import { View, Text, ActivityIndicator, StatusBar, ImageBackground, Dimensions } from 'react-native';
+import { View, Text, ActivityIndicator, StatusBar, ImageBackground, Dimensions, Pressable } from 'react-native';
 import { useLocation } from '../hooks/useLocation';
 import { usePrayerTimes } from '../hooks/usePrayerTimes';
 import { usePrayerStatus } from '../hooks/usePrayerStatus';
 import { useWeather } from '../hooks/useWeather';
 import { useAzan } from '../hooks/useAzan';
+import { useSettings } from '../hooks/useSettings';
 import { PrayerCard } from '../components/PrayerCard';
 import { CountdownTimer } from '../components/CountdownTimer';
 import { DigitalClock } from '../components/DigitalClock';
 import { PRAYER_NAMES, formatTo12Hour } from '../utils/timeUtils';
-import { MapPin, Thermometer, Sunset, Sunrise, Calendar } from 'lucide-react-native';
+import { MapPin, Thermometer, Sunset, Sunrise, Calendar, Settings } from 'lucide-react-native';
 import { notificationService } from '../services/NotificationService';
+
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
-export function HomeScreen() {
+interface HomeScreenProps {
+    onOpenSettings: () => void;
+}
+
+export function HomeScreen({ onOpenSettings }: HomeScreenProps) {
     // Hooks
     const [focusedPrayer, setFocusedPrayer] = React.useState<string | null>(null);
+    const { settings } = useSettings();
     const locationData = useLocation();
     const prayerData = usePrayerTimes(
         locationData.location?.lat ?? null,
@@ -27,16 +34,16 @@ export function HomeScreen() {
     const { cityName } = locationData;
     const { timings, hijri, loading } = prayerData;
 
-    // Schedule Azans when timings are updated
+    // Schedule Azans when timings or settings are updated
     React.useEffect(() => {
-        if (timings) {
+        if (timings && settings) {
             notificationService.requestPermission().then((granted) => {
                 if (granted) {
                     notificationService.scheduleAzans(timings);
                 }
             });
         }
-    }, [timings]);
+    }, [timings, settings]);
 
     const hijriDateString = React.useMemo(() => {
         if (!hijri) return null;
@@ -65,6 +72,8 @@ export function HomeScreen() {
 
     const { nextPrayer, currentPrayer } = statusData;
     const { weather } = weatherData;
+
+    const [isSettingsFocused, setIsSettingsFocused] = React.useState(false);
 
     return (
         <ImageBackground
@@ -107,20 +116,41 @@ export function HomeScreen() {
 
             <View className="flex-row justify-between items-start px-12 pt-10 pb-2">
                 <View className="items-start">
-                    <View className="flex-row items-center bg-white/8 px-4 py-2.5 rounded-full">
-                        <MapPin color="rgba(255,255,255,0.7)" size={14} strokeWidth={1.5} />
-                        <Text
-                            className="ml-2"
+                    <View className="flex-row items-center">
+                        <View className="flex-row items-center bg-white/8 px-4 py-2.5 rounded-full">
+                            <MapPin color="rgba(255,255,255,0.7)" size={14} strokeWidth={1.5} />
+                            <Text
+                                className="ml-2"
+                                style={{
+                                    fontSize: 14,
+                                    fontWeight: '400',
+                                    color: 'rgba(255,255,255,0.9)',
+                                    letterSpacing: 0.3,
+                                }}
+                            >
+                                {cityName ? cityName.split(',')[0] : 'Locating...'}
+                            </Text>
+                        </View>
+                        
+                        <Pressable 
+                            onPress={onOpenSettings}
+                            onFocus={() => setIsSettingsFocused(true)}
+                            onBlur={() => setIsSettingsFocused(false)}
+                            className={`ml-4 p-2.5 rounded-full ${isSettingsFocused ? 'bg-white/20' : 'bg-white/8'}`}
                             style={{
-                                fontSize: 14,
-                                fontWeight: '400',
-                                color: 'rgba(255,255,255,0.9)',
-                                letterSpacing: 0.3,
+                                borderWidth: 1,
+                                borderColor: isSettingsFocused ? 'rgba(255,255,255,0.8)' : 'transparent',
+                                transform: [{ scale: isSettingsFocused ? 1.1 : 1 }]
                             }}
                         >
-                            {cityName ? cityName.split(',')[0] : 'Locating...'}
-                        </Text>
+                            <Settings 
+                                color={isSettingsFocused ? "#ffffff" : "rgba(255,255,255,0.7)"} 
+                                size={18} 
+                                strokeWidth={2} 
+                            />
+                        </Pressable>
                     </View>
+
                     <Text
                         className="mt-3 ml-1"
                         style={{
@@ -255,9 +285,10 @@ export function HomeScreen() {
                         color: 'rgba(255,255,255,0.25)',
                     }}
                 >
-                    Designed & Developed by Soharab 
+                    Made by Soharab 
                 </Text>
             </View>
         </ImageBackground>
     );
 }
+

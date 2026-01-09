@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Sound from 'react-native-sound';
 import { PrayerTimes } from '../api/aladhan';
 import { parseTime, PRAYER_NAMES } from '../utils/timeUtils';
+import { settingsService } from '../services/SettingsService';
 
 // Enable playback in silence mode
 Sound.setCategory('Playback');
@@ -14,6 +15,11 @@ export const useAzan = (timings: PrayerTimes | null) => {
     const notifiedRef = useRef<Set<string>>(new Set());
     const soundRef = useRef<Sound | null>(null);
     const [imminentPrayer, setImminentPrayer] = useState<string | null>(null);
+    const [isAdhanEnabled, setIsAdhanEnabled] = useState(true);
+
+    useEffect(() => {
+        settingsService.getSettings().then(s => setIsAdhanEnabled(s.isAdhanEnabled));
+    }, [timings]); // Re-check when timings change or periodically
 
     useEffect(() => {
         // Reset refs at midnight
@@ -66,6 +72,8 @@ export const useAzan = (timings: PrayerTimes | null) => {
         };
 
         const playAzan = () => {
+            if (!isAdhanEnabled) return;
+
             // Stop any currently playing sound
             if (soundRef.current) {
                 soundRef.current.stop();

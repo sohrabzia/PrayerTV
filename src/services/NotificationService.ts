@@ -6,6 +6,7 @@ import notifee, {
 } from '@notifee/react-native';
 import { PrayerTimes } from '../api/aladhan';
 import { parse, set, addDays, isAfter } from 'date-fns';
+import { settingsService } from './SettingsService';
 
 class NotificationService {
   constructor() {
@@ -33,6 +34,9 @@ class NotificationService {
 
   async scheduleAzans(timings: PrayerTimes) {
     if (!timings) return;
+
+    const settings = await settingsService.getSettings();
+    const { isAdhanEnabled } = settings;
 
     // Clear existing triggers to avoid duplicates
     await notifee.cancelAllNotifications();
@@ -69,7 +73,7 @@ class NotificationService {
             android: {
               channelId: 'azan',
               importance: AndroidImportance.HIGH,
-              sound: 'azanaudio',
+              sound: isAdhanEnabled ? 'azanaudio' : undefined,
               pressAction: {
                 id: 'default',
               },

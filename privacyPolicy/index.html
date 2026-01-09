@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy Policy - PrayerTV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #000000;
+        --card-bg: rgba(28, 28, 30, 0.4);
+        --text-primary: #ffffff;
+        --text-secondary: #8e8e93;
+        --accent: #c4a661;
+        --border: rgba(255, 255, 255, 0.1);
+        --glass: rgba(255, 255, 255, 0.03);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        background-color: var(--bg);
+        color: var(--text-primary);
+        line-height: 1.6;
+        min-height: 100vh;
+      }
+
+      /* Subtle Ambient Background */
+      .ambient-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+          radial-gradient(circle at 0% 0%, rgba(196, 166, 97, 0.08) 0%, transparent 40%),
+          radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.08) 0%, transparent 40%);
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 120px 24px 80px;
+        animation: fadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 100px;
+      }
+
+      .logo-wrapper {
+        display: inline-block;
+        margin-bottom: 40px;
+        position: relative;
+      }
+
+      .logo {
+        width: 120px;
+        height: 120px;
+        border-radius: 26px; /* High-precision squircle vibe */
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+        border: 0.5px solid rgba(255, 255, 255, 0.2);
+        background: #1c1c1e;
+      }
+
+      h1 {
+        font-size: 4rem;
+        font-weight: 700;
+        letter-spacing: -0.05em;
+        margin-bottom: 12px;
+        background: linear-gradient(180deg, #ffffff 0%, #8e8e93 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .last-updated {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+      }
+
+      section {
+        margin-bottom: 80px;
+      }
+
+      h2 {
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin: 64px 0 24px;
+        color: var(--text-primary);
+        letter-spacing: -0.03em;
+      }
+
+      p {
+        font-size: 1.2rem;
+        color: var(--text-secondary);
+        margin-bottom: 32px;
+        font-weight: 400;
+        line-height: 1.7;
+      }
+
+      .highlight {
+        color: var(--text-primary);
+        font-weight: 500;
+      }
+
+      /* Premium Card */
+      .card {
+        background: var(--card-bg);
+        backdrop-filter: blur(40px);
+        -webkit-backdrop-filter: blur(40px);
+        border: 0.5px solid var(--border);
+        border-radius: 28px;
+        padding: 40px;
+        margin: 40px 0;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .card:hover {
+        background: rgba(44, 44, 46, 0.6);
+        border-color: rgba(255, 255, 255, 0.25);
+      }
+
+      .card h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 16px;
+        color: var(--accent);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .card p {
+        font-size: 1.1rem;
+        margin-bottom: 0;
+        color: #d1d1d6;
+      }
+
+      .footer-divider {
+        height: 1px;
+        background: radial-gradient(circle, var(--border) 0%, transparent 80%);
+        margin: 100px 0 40px;
+      }
+
+      footer {
+        text-align: center;
+        padding-bottom: 120px;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        font-weight: 400;
+      }
+
+      .github-link {
+        display: inline-flex;
+        align-items: center;
+        color: var(--text-primary);
+        text-decoration: none;
+        font-weight: 600;
+        background: #ffffff;
+        color: #000000;
+        padding: 16px 32px;
+        border-radius: 100px;
+        margin-top: 16px;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        font-size: 1rem;
+      }
+
+      .github-link:hover {
+        transform: scale(1.03);
+        background: #f2f2f7;
+        box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+      }
+
+      @media (max-width: 768px) {
+        h1 { font-size: 3rem; }
+        .container { padding-top: 80px; }
+        .card { padding: 32px; }
+        p { font-size: 1.1rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ambient-bg"></div>
+    
+    <div class="container">
+      <header>
+        <div class="logo-wrapper">
+          <img src="prayerTv_512x512.png" alt="PrayerTV Logo" class="logo" />
+        </div>
+        <h1>Privacy</h1>
+        <p class="last-updated">Effortless. Private. Open.</p>
+      </header>
+
+      <section>
+        <p>
+          At <span class="highlight">PrayerTV</span>, we believe privacy isn't just a feature, it's the foundation of everything we build. 
+          We designed this experience to be as transparent as it is spiritual, ensuring your focus remains on your devotion, not your data.
+        </p>
+
+        <h2>Intentional Simplicity</h2>
+        <p>
+          We do not collect what we do not need. PrayerTV requires no accounts, tracks no identities, and stores no personal history. 
+          Your interactions with the divine are yours alone.
+        </p>
+
+        <div class="card">
+          <h3><span>📍</span> Location</h3>
+          <p>
+            Coordinates are used solely to determine prayer timings. This data is handled with extreme care, 
+            either staying on your device or being processed through anonymous requests. 
+            We never build a profile of where you’ve been.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3><span>🔔</span> Experience</h3>
+          <p>
+            Notifications and audio haptics are managed within the sanctuary of your own device. 
+            We have no visibility into how you choose to be reminded of your prayers.
+          </p>
+        </div>
+
+        <h2>Open Transparency</h2>
+        <p>
+          In the spirit of true craftsmanship, we have made the entire codebase public. 
+          Anyone can explore the inner workings of PrayerTV to verify our commitment to your privacy.
+        </p>
+        
+        <a href="https://github.com/sohrabzia/PrayerTV" class="github-link" target="_blank">
+          View on GitHub
+        </a>
+
+        <h2>Integrations</h2>
+        <p>
+          We are using <span class="highlight">Aladhan API</span> to provide precise timings. 
+          Technical data required for these requests is kept minimal and transient, 
+          adhering to the highest standards of data integrity.
+        </p>
+
+        <h2>Continuity</h2>
+        <p>
+          This policy reflects our current values. While we may refine our wording over time, 
+          our philosophy of radical privacy is permanent.
+        </p>
+      </section>
+
+      <div class="footer-divider"></div>
+
+  
+    </div>
+  </body>
+</html>
